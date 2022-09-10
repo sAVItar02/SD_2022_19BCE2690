@@ -29,7 +29,7 @@ let playerA = {
             gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
 
             this.positions[i][0] += 1;
-            // killPlayer(this.positions[i][2], "B");
+            killPlayer(playerB.positions[i][2], "B");
           } else if (
             gridInfo[this.positions[i][0] + 1][this.positions[i][1]] == 0
           ) {
@@ -59,7 +59,7 @@ let playerA = {
             gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
 
             this.positions[i][0] -= 1;
-            // killPlayer(this.positions[i][2], "B");
+            killPlayer(playerB.positions[i][2], "B");
           } else if (
             gridInfo[this.positions[i][0] - 1][this.positions[i][0]] == 0
           ) {
@@ -87,7 +87,7 @@ let playerA = {
             gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
 
             this.positions[i][1] -= 1;
-            // killPlayer(this.positions[i][2], "B");
+            killPlayer(playerB.positions[i][2], "B");
           } else if (
             gridInfo[this.positions[i][0]][this.positions[i][1] - 1] == 0
           ) {
@@ -95,6 +95,34 @@ let playerA = {
             gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
 
             this.positions[i][1] -= 1;
+          } else {
+            alert("Already occupied by your own player");
+          }
+        } else {
+          alert("Invalid Move");
+        }
+      }
+    }
+    clearGrid();
+    displayGrid(this.positions, playerB.positions);
+  },
+  moveRight: function (player) {
+    for (var i = 0; i < this.positions.length; i++) {
+      if (this.positions[i][2] === player) {
+        if (this.positions[i][1] + 1 <= 4) {
+          if (gridInfo[this.positions[i][0]][this.positions[i][1] + 1] == 2) {
+            gridInfo[this.positions[i][0]][this.positions[i][1] + 1] = 1;
+            gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
+
+            this.positions[i][1] += 1;
+            killPlayer(playerB.positions[i][2], "B");
+          } else if (
+            gridInfo[this.positions[i][0]][this.positions[i][1] + 1] == 0
+          ) {
+            gridInfo[this.positions[i][0]][this.positions[i][1] + 1] = 1;
+            gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
+
+            this.positions[i][1] += 1;
           } else {
             alert("Already occupied by your own player");
           }
@@ -128,7 +156,7 @@ let playerB = {
             gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
 
             this.positions[i][0] -= 1;
-            // killPlayer(this.positions[i][2], "A");
+            killPlayer(playerA.positions[i][2], "A");
           } else if (
             gridInfo[this.positions[i][0] - 1][this.positions[i][1]] == 0
           ) {
@@ -156,7 +184,7 @@ let playerB = {
             gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
 
             this.positions[i][0] += 1;
-            // killPlayer(this.positions[i][2], "A");
+            killPlayer(playerA.positions[i][2], "A");
           } else if (
             gridInfo[this.positions[i][0] + 1][this.positions[i][1]] == 0
           ) {
@@ -184,7 +212,7 @@ let playerB = {
             gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
 
             this.positions[i][1] -= 1;
-            // killPlayer(this.positions[i][2], "A");
+            killPlayer(playerA.positions[i][2], "A");
           } else if (
             gridInfo[this.positions[i][0]][this.positions[i][1] - 1] == 0
           ) {
@@ -203,7 +231,55 @@ let playerB = {
     clearGrid();
     displayGrid(playerA.positions, this.positions);
   },
+  moveRight: function (player) {
+    for (var i = 0; i < this.positions.length; i++) {
+      if (this.positions[i][2] === player) {
+        if (this.positions[i][1] + 1 <= 4) {
+          if (gridInfo[this.positions[i][0]][this.positions[i][1] + 1] == 1) {
+            gridInfo[this.positions[i][0]][this.positions[i][1] + 1] = 2;
+            gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
+
+            this.positions[i][1] += 1;
+            killPlayer(playerA.positions[i][2], "A");
+          } else if (
+            gridInfo[this.positions[i][0]][this.positions[i][1] + 1] == 0
+          ) {
+            gridInfo[this.positions[i][0]][this.positions[i][1] + 1] = 2;
+            gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
+
+            this.positions[i][1] += 1;
+          } else {
+            alert("Already Occupied by your own player");
+          }
+        } else {
+          alert("Invalid Move");
+        }
+      }
+    }
+    clearGrid();
+    displayGrid(playerA.positions, this.positions);
+  },
 };
+
+function killPlayer(player, playerKilled) {
+  if (playerKilled === "A") {
+    for (var i = 0; i < playerA.positions.length; i++) {
+      if (playerA.positions[i][2] === player) {
+        playerA.positions[i][3] = false;
+        playerB.score += 1;
+        console.log("Player B killed Player A");
+      }
+    }
+  } else {
+    for (var i = 0; i < playerB.positions.length; i++) {
+      if (playerB.positions[i][2] === player) {
+        playerB.positions[i][3] = false;
+        playerA.score += 1;
+        console.log("Player A killed Player B");
+      }
+    }
+  }
+}
 
 function displayGrid(positionA, positionB) {
   for (var i = 0; i < positionA.length; i++) {
@@ -234,13 +310,17 @@ function displayGridInfo() {
   console.log(gridInfo);
 }
 
+function displayPlayerStats() {
+  console.log(playerA);
+  console.log(playerB);
+}
+
 displayGrid(playerA.positions, playerB.positions);
 playerA.moveForward("P2");
+playerB.moveForward("P2");
+
 playerA.moveForward("P2");
-playerA.moveBackward("P2");
-playerA.moveLeft("P2");
-playerB.moveForward("P2");
-playerB.moveForward("P2");
-playerB.moveLeft("P2");
+playerA.moveForward("P2");
 
 displayGridInfo();
+displayPlayerStats();
