@@ -93,7 +93,7 @@ let playerA = {
             gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
 
             this.positions[i][1] -= 1;
-            killPlayer(playerB.positions[i][2], "B");
+            killPlayer(playerB.positions[i - 1][2], "B");
           } else if (
             gridInfo[this.positions[i][0]][this.positions[i][1] - 1] == 0
           ) {
@@ -121,7 +121,7 @@ let playerA = {
             gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
 
             this.positions[i][1] += 1;
-            killPlayer(playerB.positions[i][2], "B");
+            killPlayer(playerB.positions[i + 1][2], "B");
           } else if (
             gridInfo[this.positions[i][0]][this.positions[i][1] + 1] == 0
           ) {
@@ -219,7 +219,7 @@ let playerB = {
             gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
 
             this.positions[i][1] -= 1;
-            killPlayer(playerA.positions[i][2], "A");
+            killPlayer(playerA.positions[i - 1][2], "A");
           } else if (
             gridInfo[this.positions[i][0]][this.positions[i][1] - 1] == 0
           ) {
@@ -247,7 +247,7 @@ let playerB = {
             gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
 
             this.positions[i][1] += 1;
-            killPlayer(playerA.positions[i][2], "A");
+            killPlayer(playerA.positions[i + 1][2], "A");
           } else if (
             gridInfo[this.positions[i][0]][this.positions[i][1] + 1] == 0
           ) {
@@ -274,7 +274,10 @@ function killPlayer(player, playerKilled) {
       if (playerA.positions[i][2] === player) {
         playerA.positions[i][3] = false;
         playerB.score += 1;
+        document.querySelector(`.A-${playerA.positions[i][2]}`).style.display =
+          "none";
         console.log("Player B killed Player A");
+        changeSelection("A");
       }
     }
   } else {
@@ -282,6 +285,9 @@ function killPlayer(player, playerKilled) {
       if (playerB.positions[i][2] === player) {
         playerB.positions[i][3] = false;
         playerA.score += 1;
+        document.querySelector(`.B-${playerB.positions[i][2]}`).style.display =
+          "none";
+        changeSelection("B");
         console.log("Player A killed Player B");
       }
     }
@@ -340,7 +346,7 @@ let gameLogic = {
 };
 
 function ATurn(moveType) {
-  if (gameLogic.currentTurn === "A") {
+  if (gameLogic.currentTurn === "A" && gameLogic.isGameOver == false) {
     if (moveType === "up") {
       playerA.moveBackward(playerA.currentSelected);
       displayGridInfo();
@@ -360,14 +366,20 @@ function ATurn(moveType) {
     }
     checkWin();
     document.querySelector(".currentTurn").innerHTML = "Current Turn: B";
+    document.querySelector(
+      ".currentSelected"
+    ).innerHTML = `Current Selected: ${playerB.currentSelected}`;
+    updateScore();
     gameLogic.currentTurn = "B";
+    disableButtons("A");
+    enableButtons("B");
   } else {
     alert("Not your turn");
   }
 }
 
 function BTurn(moveType) {
-  if (gameLogic.currentTurn === "B") {
+  if (gameLogic.currentTurn === "B" && gameLogic.isGameOver == false) {
     if (moveType === "up") {
       playerB.moveForward(playerB.currentSelected);
       displayGridInfo();
@@ -386,8 +398,14 @@ function BTurn(moveType) {
       displayPlayerStats();
     }
     document.querySelector(".currentTurn").innerHTML = "Current Turn: A";
+    document.querySelector(
+      ".currentSelected"
+    ).innerHTML = `Current Selected: ${playerA.currentSelected}`;
     checkWin();
+    updateScore();
     gameLogic.currentTurn = "A";
+    disableButtons("B");
+    enableButtons("A");
   } else {
     alert("Not your turn");
   }
@@ -397,9 +415,11 @@ function checkWin() {
   if (playerA.score == 5) {
     gameLogic.isGameOver = true;
     alert("Player A Wins");
+    resetGame();
   } else if (playerB.score == 5) {
     gameLogic.isGameOver = true;
     alert("Player B Wins");
+    resetGame();
   }
 }
 
@@ -431,12 +451,65 @@ function resetGame() {
       [2, 2, 2, 2, 2],
     ];
   }
-  displayGrid();
+  displayGrid(playerA.positions, playerB.positions);
 }
+
+function changeSelection(player) {
+  if (player === "A") {
+    for (var i = 0; i < playerA.positions.length; i++) {
+      if (playerA.positions[i][3]) {
+        playerA.currentSelected = playerA.positions[i][2];
+      }
+    }
+  } else {
+    for (var i = 0; i < playerB.positions.length; i++) {
+      if (playerB.positions[i][3]) {
+        playerB.currentSelected = playerB.positions[i][2];
+      }
+    }
+  }
+}
+
+function disableButtons(player) {
+  if (player === "A") {
+    document.querySelector("#A-up").disabled = true;
+    document.querySelector("#A-down").disabled = true;
+    document.querySelector("#A-left").disabled = true;
+    document.querySelector("#A-right").disabled = true;
+  } else {
+    document.querySelector("#B-up").disabled = true;
+    document.querySelector("#B-down").disabled = true;
+    document.querySelector("#B-left").disabled = true;
+    document.querySelector("#B-right").disabled = true;
+  }
+}
+
+function enableButtons(player) {
+  if (player === "A") {
+    document.querySelector("#A-up").disabled = false;
+    document.querySelector("#A-down").disabled = false;
+    document.querySelector("#A-left").disabled = false;
+    document.querySelector("#A-right").disabled = false;
+  } else {
+    document.querySelector("#B-up").disabled = false;
+    document.querySelector("#B-down").disabled = false;
+    document.querySelector("#B-left").disabled = false;
+    document.querySelector("#B-right").disabled = false;
+  }
+}
+
+disableButtons("B");
 
 document.querySelector(
   ".currentSelected"
 ).innerHTML = `Current Selected: ${playerA.currentSelected}`;
+
+function updateScore() {
+  document.querySelector(".scoreA").innerHTML = `Score: ${playerA.score}`;
+  document.querySelector(".scoreB").innerHTML = `Score: ${playerB.score}`;
+}
+
+updateScore();
 
 /* 
     ! Button Press Logic
