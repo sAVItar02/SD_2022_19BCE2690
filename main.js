@@ -23,10 +23,21 @@ let playerA = {
     for (var i = 0; i < this.positions.length; i++) {
       if (this.positions[i][2] === player) {
         if (this.positions[i][0] + 1 <= 4) {
-          if (gridInfo[i][0] + 1 == 2) {
+          if (gridInfo[this.positions[i][0] + 1][this.positions[i][1]] == 2) {
+            // update gridInfo
+            gridInfo[this.positions[i][0] + 1][this.positions[i][1]] = 1;
+            gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
+
             this.positions[i][0] += 1;
             // killPlayer(this.positions[i][2], "B");
-          } else if (gridInfo[i][0] + 1 == 0) {
+          } else if (
+            gridInfo[this.positions[i][0] + 1][this.positions[i][1]] == 0
+          ) {
+            // update gridInfo
+            gridInfo[this.positions[i][0] + 1][this.positions[i][1]] = 1;
+            gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
+
+            // update positions
             this.positions[i][0] += 1;
           } else {
             alert("Already occupied by your own player");
@@ -43,11 +54,47 @@ let playerA = {
     for (var i = 0; i < this.positions.length; i++) {
       if (this.positions[i][2] === player) {
         if (this.positions[i][0] - 1 >= 0) {
-          if (gridInfo[i][0] - 1 == 2) {
+          if (gridInfo[this.positions[i][0] - 1][this.positions[i][1]] == 2) {
+            gridInfo[this.positions[i][0] - 1][this.positions[i][1]] = 1;
+            gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
+
             this.positions[i][0] -= 1;
             // killPlayer(this.positions[i][2], "B");
-          } else if (gridInfo[i][0] - 1 == 0) {
+          } else if (
+            gridInfo[this.positions[i][0] - 1][this.positions[i][0]] == 0
+          ) {
+            gridInfo[this.positions[i][0] - 1][this.positions[i][1]] = 1;
+            gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
+
             this.positions[i][0] -= 1;
+          } else {
+            alert("Already occupied by your own player");
+          }
+        } else {
+          alert("Invalid Move");
+        }
+      }
+    }
+    clearGrid();
+    displayGrid(this.positions, playerB.positions);
+  },
+  moveLeft: function (player) {
+    for (var i = 0; i < this.positions.length; i++) {
+      if (this.positions[i][2] === player) {
+        if (this.positions[i][1] - 1 >= 0) {
+          if (gridInfo[this.positions[i][0]][this.positions[i][1] - 1] == 2) {
+            gridInfo[this.positions[i][0]][this.positions[i][1] - 1] = 1;
+            gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
+
+            this.positions[i][1] -= 1;
+            // killPlayer(this.positions[i][2], "B");
+          } else if (
+            gridInfo[this.positions[i][0]][this.positions[i][1] - 1] == 0
+          ) {
+            gridInfo[this.positions[i][0]][this.positions[i][1] - 1] = 1;
+            gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
+
+            this.positions[i][1] -= 1;
           } else {
             alert("Already occupied by your own player");
           }
@@ -76,10 +123,18 @@ let playerB = {
     for (var i = 0; i < this.positions.length; i++) {
       if (this.positions[i][2] === player) {
         if (this.positions[i][0] - 1 >= 0) {
-          if (gridInfo[i][0] - 1 == 1) {
+          if (gridInfo[this.positions[i][0] - 1][this.positions[i][1]] == 1) {
+            gridInfo[this.positions[i][0] - 1][this.positions[i][1]] = 2;
+            gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
+
             this.positions[i][0] -= 1;
             // killPlayer(this.positions[i][2], "A");
-          } else if (gridInfo[i][0] - 1 == 0) {
+          } else if (
+            gridInfo[this.positions[i][0] - 1][this.positions[i][1]] == 0
+          ) {
+            gridInfo[this.positions[i][0] - 1][this.positions[i][1]] = 2;
+            gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
+
             this.positions[i][0] -= 1;
           } else {
             alert("Already Occupied by your own player");
@@ -96,16 +151,52 @@ let playerB = {
     for (var i = 0; i < this.positions.length; i++) {
       if (this.positions[i][2] === player) {
         if (this.positions[i][0] + 1 <= 4) {
-          if (gridInfo[i][0] + 1 == 1) {
+          if (gridInfo[this.positions[i][0] + 1][this.positions[i][1]] == 1) {
+            gridInfo[this.positions[i][0] + 1][this.positions[i][1]] = 2;
+            gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
+
             this.positions[i][0] += 1;
             // killPlayer(this.positions[i][2], "A");
-          } else if (gridInfo[i][0] + 1 == 0) {
+          } else if (
+            gridInfo[this.positions[i][0] + 1][this.positions[i][1]] == 0
+          ) {
+            gridInfo[this.positions[i][0] + 1][this.positions[i][1]] = 2;
+            gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
+
             this.positions[i][0] += 1;
           } else {
             alert("Already Occupied by your own player");
           }
         } else {
           alert("Ivalid Move");
+        }
+      }
+    }
+    clearGrid();
+    displayGrid(playerA.positions, this.positions);
+  },
+  moveLeft: function (player) {
+    for (var i = 0; i < this.positions.length; i++) {
+      if (this.positions[i][2] === player) {
+        if (this.positions[i][1] - 1 >= 0) {
+          if (gridInfo[this.positions[i][0]][this.positions[i][1] - 1] == 1) {
+            gridInfo[this.positions[i][0]][this.positions[i][1] - 1] = 2;
+            gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
+
+            this.positions[i][1] -= 1;
+            // killPlayer(this.positions[i][2], "A");
+          } else if (
+            gridInfo[this.positions[i][0]][this.positions[i][1] - 1] == 0
+          ) {
+            gridInfo[this.positions[i][0]][this.positions[i][1] - 1] = 2;
+            gridInfo[this.positions[i][0]][this.positions[i][1]] = 0;
+
+            this.positions[i][1] -= 1;
+          } else {
+            alert("Already Occupied by your own player");
+          }
+        } else {
+          alert("Invalid Move");
         }
       }
     }
@@ -139,4 +230,17 @@ function clearGrid() {
   }
 }
 
+function displayGridInfo() {
+  console.log(gridInfo);
+}
+
 displayGrid(playerA.positions, playerB.positions);
+playerA.moveForward("P2");
+playerA.moveForward("P2");
+playerA.moveBackward("P2");
+playerA.moveLeft("P2");
+playerB.moveForward("P2");
+playerB.moveForward("P2");
+playerB.moveLeft("P2");
+
+displayGridInfo();
