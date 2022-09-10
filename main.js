@@ -434,6 +434,10 @@ function resetGame() {
   displayGrid();
 }
 
+document.querySelector(
+  ".currentSelected"
+).innerHTML = `Current Selected: ${playerA.currentSelected}`;
+
 /* 
     ! Button Press Logic
 */
@@ -475,43 +479,73 @@ document.querySelector("#B-down").addEventListener("click", function (e) {
 document.querySelector(".A-P1").addEventListener("click", function (e) {
   e.preventDefault();
   playerA.currentSelected = "P1";
+  document.querySelector(
+    ".currentSelected"
+  ).innerHTML = `Current Selected: ${playerA.currentSelected}`;
 });
 document.querySelector(".A-P2").addEventListener("click", function (e) {
   e.preventDefault();
   playerA.currentSelected = "P2";
+  document.querySelector(
+    ".currentSelected"
+  ).innerHTML = `Current Selected: ${playerA.currentSelected}`;
 });
 document.querySelector(".A-P3").addEventListener("click", function (e) {
   e.preventDefault();
   playerA.currentSelected = "P3";
+  document.querySelector(
+    ".currentSelected"
+  ).innerHTML = `Current Selected: ${playerA.currentSelected}`;
 });
 document.querySelector(".A-P4").addEventListener("click", function (e) {
   e.preventDefault();
   playerA.currentSelected = "P4";
+  document.querySelector(
+    ".currentSelected"
+  ).innerHTML = `Current Selected: ${playerA.currentSelected}`;
 });
 document.querySelector(".A-P5").addEventListener("click", function (e) {
   e.preventDefault();
   playerA.currentSelected = "P5";
+  document.querySelector(
+    ".currentSelected"
+  ).innerHTML = `Current Selected: ${playerA.currentSelected}`;
 });
 
 document.querySelector(".B-P1").addEventListener("click", function (e) {
   e.preventDefault();
   playerB.currentSelected = "P1";
+  document.querySelector(
+    ".currentSelected"
+  ).innerHTML = `Current Selected: ${playerB.currentSelected}`;
 });
 document.querySelector(".B-P2").addEventListener("click", function (e) {
   e.preventDefault();
   playerB.currentSelected = "P2";
+  document.querySelector(
+    ".currentSelected"
+  ).innerHTML = `Current Selected: ${playerB.currentSelected}`;
 });
 document.querySelector(".B-P3").addEventListener("click", function (e) {
   e.preventDefault();
   playerB.currentSelected = "P3";
+  document.querySelector(
+    ".currentSelected"
+  ).innerHTML = `Current Selected: ${playerB.currentSelected}`;
 });
 document.querySelector(".B-P4").addEventListener("click", function (e) {
   e.preventDefault();
   playerB.currentSelected = "P4";
+  document.querySelector(
+    ".currentSelected"
+  ).innerHTML = `Current Selected: ${playerB.currentSelected}`;
 });
 document.querySelector(".B-P5").addEventListener("click", function (e) {
   e.preventDefault();
   playerB.currentSelected = "P5";
+  document.querySelector(
+    ".currentSelected"
+  ).innerHTML = `Current Selected: ${playerB.currentSelected}`;
 });
 
 // document.querySelectorAll(".square").forEach((square) => {
