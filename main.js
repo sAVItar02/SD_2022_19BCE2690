@@ -1,6 +1,7 @@
 /* 
     ! Movement Logic
 */
+document.querySelector(".currentTurn").innerHTML = "Current Turn: A";
 
 const grid = document.querySelector(".grid");
 
@@ -342,14 +343,23 @@ function ATurn(moveType) {
   if (gameLogic.currentTurn === "A") {
     if (moveType === "up") {
       playerA.moveBackward(playerA.currentSelected);
+      displayGridInfo();
+      displayPlayerStats();
     } else if (moveType === "down") {
       playerA.moveForward(playerA.currentSelected);
+      displayGridInfo();
+      displayPlayerStats();
     } else if (moveType === "left") {
       playerA.moveLeft(playerA.currentSelected);
+      displayGridInfo();
+      displayPlayerStats();
     } else if (moveType === "right") {
       playerA.moveRight(playerA.currentSelected);
+      displayGridInfo();
+      displayPlayerStats();
     }
     checkWin();
+    document.querySelector(".currentTurn").innerHTML = "Current Turn: B";
     gameLogic.currentTurn = "B";
   } else {
     alert("Not your turn");
@@ -360,13 +370,22 @@ function BTurn(moveType) {
   if (gameLogic.currentTurn === "B") {
     if (moveType === "up") {
       playerB.moveForward(playerB.currentSelected);
+      displayGridInfo();
+      displayPlayerStats();
     } else if (moveType === "down") {
       playerB.moveBackward(playerB.currentSelected);
+      displayGridInfo();
+      displayPlayerStats();
     } else if (moveType === "left") {
       playerB.moveLeft(playerB.currentSelected);
+      displayGridInfo();
+      displayPlayerStats();
     } else if (moveType === "right") {
       playerB.moveRight(playerB.currentSelected);
+      displayGridInfo();
+      displayPlayerStats();
     }
+    document.querySelector(".currentTurn").innerHTML = "Current Turn: A";
     checkWin();
     gameLogic.currentTurn = "A";
   } else {
