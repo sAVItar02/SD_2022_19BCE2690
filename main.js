@@ -412,6 +412,7 @@ function resetGame() {
       [2, 2, 2, 2, 2],
     ];
   }
+  displayGrid();
 }
 
 /* 
@@ -451,3 +452,69 @@ document.querySelector("#B-down").addEventListener("click", function (e) {
   e.preventDefault();
   BTurn("down");
 });
+
+document.querySelector(".A-P1").addEventListener("click", function (e) {
+  e.preventDefault();
+  playerA.currentSelected = "P1";
+});
+document.querySelector(".A-P2").addEventListener("click", function (e) {
+  e.preventDefault();
+  playerA.currentSelected = "P2";
+});
+document.querySelector(".A-P3").addEventListener("click", function (e) {
+  e.preventDefault();
+  playerA.currentSelected = "P3";
+});
+document.querySelector(".A-P4").addEventListener("click", function (e) {
+  e.preventDefault();
+  playerA.currentSelected = "P4";
+});
+document.querySelector(".A-P5").addEventListener("click", function (e) {
+  e.preventDefault();
+  playerA.currentSelected = "P5";
+});
+
+document.querySelector(".B-P1").addEventListener("click", function (e) {
+  e.preventDefault();
+  playerB.currentSelected = "P1";
+});
+document.querySelector(".B-P2").addEventListener("click", function (e) {
+  e.preventDefault();
+  playerB.currentSelected = "P2";
+});
+document.querySelector(".B-P3").addEventListener("click", function (e) {
+  e.preventDefault();
+  playerB.currentSelected = "P3";
+});
+document.querySelector(".B-P4").addEventListener("click", function (e) {
+  e.preventDefault();
+  playerB.currentSelected = "P4";
+});
+document.querySelector(".B-P5").addEventListener("click", function (e) {
+  e.preventDefault();
+  playerB.currentSelected = "P5";
+});
+
+// document.querySelectorAll(".square").forEach((square) => {
+//   square.addEventListener("click", function (e) {
+//     e.preventDefault();
+//     if (gameLogic.currentTurn === "A") {
+
+//       console.log(playerA.currentSelected);
+//       //   playerA.selectPiece(playerA.currentSelected);
+//     } else if (gameLogic.currentTurn === "B") {
+//       playerB.currentSelected = square.id.slice(-1);
+//       console.log(playerB.currentSelected);
+//       //   playerB.selectPiece(playerB.currentSelected);
+//     }
+//   });
+// });
+
+/* 
+    ! Reset Game
+*/
+
+// document.querySelector("#reset").addEventListener("click", function (e) {
+//   e.preventDefault();
+//   resetGame();
+// });

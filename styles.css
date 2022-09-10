@@ -90,3 +90,32 @@ body {
     background-color: #F7DC6F;
     scale: 1.1;
 }
+
+.select-controls {
+    margin: 10px 0;
+    width: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: #5DADE2;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.select {
+    height: 50px;
+    width: 50px;
+    border-radius: 5px;
+    background-color: #F4D03F;
+    border: none;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    transition: 150ms ease;
+}
+
+.select:hover {
+    background-color: #F7DC6F;
+    scale: 1.1;
+}
