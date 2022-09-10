@@ -1,3 +1,7 @@
+/* 
+    ! Movement Logic
+*/
+
 const grid = document.querySelector(".grid");
 
 let gridInfo = [
@@ -19,6 +23,7 @@ let playerA = {
     [0, 3, "P4", true],
     [0, 4, "P5", true],
   ],
+  currentSelected: "P1",
   moveForward: function (player) {
     for (var i = 0; i < this.positions.length; i++) {
       if (this.positions[i][2] === player) {
@@ -147,6 +152,7 @@ let playerB = {
     [4, 3, "P4", true],
     [4, 4, "P5", true],
   ],
+  currentSelected: "P1",
   moveForward: function (player) {
     for (var i = 0; i < this.positions.length; i++) {
       if (this.positions[i][2] === player) {
@@ -316,11 +322,132 @@ function displayPlayerStats() {
 }
 
 displayGrid(playerA.positions, playerB.positions);
-playerA.moveForward("P2");
-playerB.moveForward("P2");
-
-playerA.moveForward("P2");
-playerA.moveForward("P2");
 
 displayGridInfo();
 displayPlayerStats();
+
+/* 
+    ! Game Logic 
+*/
+
+let gameLogic = {
+  currentTurn: "A",
+  playerA: playerA,
+  playerB: playerB,
+  gridInfo: gridInfo,
+  isGameOver: false,
+};
+
+function ATurn(moveType) {
+  if (gameLogic.currentTurn === "A") {
+    if (moveType === "up") {
+      playerA.moveBackward(playerA.currentSelected);
+    } else if (moveType === "down") {
+      playerA.moveForward(playerA.currentSelected);
+    } else if (moveType === "left") {
+      playerA.moveLeft(playerA.currentSelected);
+    } else if (moveType === "right") {
+      playerA.moveRight(playerA.currentSelected);
+    }
+    checkWin();
+    gameLogic.currentTurn = "B";
+  } else {
+    alert("Not your turn");
+  }
+}
+
+function BTurn(moveType) {
+  if (gameLogic.currentTurn === "B") {
+    if (moveType === "up") {
+      playerB.moveForward(playerB.currentSelected);
+    } else if (moveType === "down") {
+      playerB.moveBackward(playerB.currentSelected);
+    } else if (moveType === "left") {
+      playerB.moveLeft(playerB.currentSelected);
+    } else if (moveType === "right") {
+      playerB.moveRight(playerB.currentSelected);
+    }
+    checkWin();
+    gameLogic.currentTurn = "A";
+  } else {
+    alert("Not your turn");
+  }
+}
+
+function checkWin() {
+  if (playerA.score == 5) {
+    gameLogic.isGameOver = true;
+    alert("Player A Wins");
+  } else if (playerB.score == 5) {
+    gameLogic.isGameOver = true;
+    alert("Player B Wins");
+  }
+}
+
+function resetGame() {
+  if (gameLogic.isGameOver) {
+    (playerA.positions = [
+      [0, 0, "A-P1", true],
+      [0, 1, "A-P2", true],
+      [0, 2, "A-P3", true],
+      [0, 3, "A-P4", true],
+      [0, 4, "A-P5", true],
+    ]),
+      (playerA.score = 0);
+    playerB.positions = [
+      [4, 0, "B-P1", true],
+      [4, 1, "B-P2", true],
+      [4, 2, "B-P3", true],
+      [4, 3, "B-P4", true],
+      [4, 4, "B-P5", true],
+    ];
+    playerB.score = 0;
+    isGameOver = false;
+    gameLogic.currentTurn = "A";
+    gridInfo = [
+      [1, 1, 1, 1, 1],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [2, 2, 2, 2, 2],
+    ];
+  }
+}
+
+/* 
+    ! Button Press Logic
+*/
+
+document.querySelector("#A-up").addEventListener("click", function (e) {
+  e.preventDefault();
+  ATurn("up");
+});
+document.querySelector("#A-down").addEventListener("click", function (e) {
+  e.preventDefault();
+  ATurn("down");
+});
+document.querySelector("#A-left").addEventListener("click", function (e) {
+  e.preventDefault();
+  ATurn("left");
+});
+document.querySelector("#A-right").addEventListener("click", function (e) {
+  e.preventDefault();
+  ATurn("right");
+});
+
+document.querySelector("#B-up").addEventListener("click", function (e) {
+  e.preventDefault();
+  BTurn("up");
+});
+document.querySelector("#B-left").addEventListener("click", function (e) {
+  e.preventDefault();
+  BTurn("left");
+});
+document.querySelector("#B-right").addEventListener("click", function (e) {
+  e.preventDefault();
+  BTurn("right");
+});
+document.querySelector("#B-down").addEventListener("click", function (e) {
+  e.preventDefault();
+  BTurn("down");
+});
